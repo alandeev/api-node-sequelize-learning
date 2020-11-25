@@ -1,9 +1,6 @@
 // express import
 const express = require('express');
-
-// routes import
-const { userRoutes } = require('./routes/user');
-const { authRoutes } = require('./routes/auth');
+const consign = require('consign');
 
 // database connection
 require('./database/database');
@@ -13,7 +10,9 @@ class App {
   constructor() {
     this.app = express();
     this.middlewares();
-    this.routes();
+
+    // starting routes;
+    consign().include('src/routes').into(this.app);
   }
 
   middlewares() {
@@ -22,8 +21,7 @@ class App {
   }
 
   routes() {
-    this.app.use('/user', userRoutes);
-    this.app.use('/', authRoutes);
+
   }
 }
 

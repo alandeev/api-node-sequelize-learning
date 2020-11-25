@@ -7,4 +7,4 @@ const authRoutes = Router();
 authRoutes.post('/authenticate', Controller.authenticate);
 authRoutes.post('/signup', Controller.signup);
 
-module.exports = { authRoutes };
+module.exports = (app) => app.use('/', authRoutes);

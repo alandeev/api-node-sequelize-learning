@@ -11,4 +11,4 @@ userRoutes.use(middleware);
 userRoutes.get('/', (req, res) => res.json(req.requester));
 userRoutes.put('/', Controller.update);
 
-module.exports = { userRoutes };
+module.exports = (app) => app.use('/user', userRoutes);
