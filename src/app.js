@@ -19,10 +19,6 @@ class App {
     this.app.use(express.urlencoded({ extended: true }));
     this.app.use(express.json());
   }
-
-  routes() {
-
-  }
 }
 
 // export App to use

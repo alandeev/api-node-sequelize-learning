@@ -16,5 +16,6 @@ module.exports = {
     'no-param-reassign': 'off',
     camelcase: 'off',
     'no-restricted-syntax': 'off',
+    'line-breakstyle': 'crlf',
   },
 };
