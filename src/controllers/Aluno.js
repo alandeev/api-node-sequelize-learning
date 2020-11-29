@@ -1,18 +1,48 @@
 import Aluno from '../models/Aluno';
 import Tech from '../models/Tech';
+import TechAluno from '../models/TechAluno';
+import Photo from '../models/Photo';
 
 class AlunoController {
   async index(req, res){
-    const alunos = await Aluno.findAll({
+    // const alunos = await Aluno.findAll({
+    //   include: {
+    //     model: Tech,
+    //     as: "teches",
+    //     through: {
+    //       attributes: ['id', 'aluno_id', 'tech_id']
+    //     }
+    //   }
+    // });
+
+    const relations = await Aluno.findAll({
       include: {
-        model: Tech,
-        as: "teches",
-        through: {
-          attributes: []
-        }
+        model: Photo,
+        as: 'profile'
       }
     });
-    res.json(alunos);
+
+    res.json(relations);
+  }
+
+  async show(req, res){
+    const aluno = await Aluno.findByPk(req.params.aluno_id, {
+      include: [
+        {
+          model: Tech,
+          as: 'teches',
+          through: {
+            attributes: []
+          }
+        },
+        {
+          model: Photo,
+          as: 'profile',
+          attributes: ['path', 'filename', 'mimetype']
+        }
+      ]
+    });
+    res.json(aluno);
   }
 
   async create(req, res){
@@ -35,8 +65,8 @@ class AlunoController {
     if(!tech)
       return res.status(400).json({ error: "Tech not found" })
 
-    aluno.addTeches(tech_id);
-    return res.json(aluno);
+    const create = await TechAluno.create({ aluno_id, tech_id });
+    return res.json(create);
   }
 }
 

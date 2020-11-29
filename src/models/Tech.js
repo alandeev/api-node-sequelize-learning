@@ -22,7 +22,7 @@ class Tech extends Model {
   }
 
   static associate(models){
-    this.belongsToMany(models.Aluno, { through: 'techalunos', as: 'alunos', foreignKey: 'tech_id' })
+    this.belongsToMany(models.Aluno, { through: 'tech_alunos', as: 'alunos', foreignKey: 'tech_id' })
   }
 }
 

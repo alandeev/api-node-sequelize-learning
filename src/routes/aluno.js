@@ -5,6 +5,7 @@ const Controller = require('../controllers/Aluno');
 const alunoRoutes = Router();
 
 alunoRoutes.get('/', Controller.index);
+alunoRoutes.get('/:aluno_id', Controller.show);
 alunoRoutes.post('/', Controller.create);
 alunoRoutes.get('/techs/:aluno_id/:tech_id', Controller.addTech);
 

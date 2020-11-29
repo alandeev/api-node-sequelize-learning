@@ -64,7 +64,8 @@ class Aluno extends Model {
   }
 
   static associate(models){
-    this.belongsToMany(models.Tech, { through: 'techalunos', as: 'teches', foreignKey: 'aluno_id' })
+    this.hasOne(models.Photo, { foreignKey: 'aluno_id', as: 'profile' });
+    this.belongsToMany(models.Tech, { through: 'tech_alunos', as: 'teches', foreignKey: 'aluno_id' })
   }
 
   getAttributes(props) {
