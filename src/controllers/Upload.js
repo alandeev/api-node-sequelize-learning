@@ -19,7 +19,6 @@ class UploadController {
         const { aluno_id } = req.body;
         const { originalname, mimetype, path, filename } = req.file;
         const aluno = await Aluno.findByPk(aluno_id);
-
         if(!aluno) {
           return res.status(400).json({ errors: [ 'aluno not found by id' ] });
         }

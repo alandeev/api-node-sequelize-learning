@@ -1,4 +1,5 @@
 const { Model, DataTypes } = require('sequelize');
+const { baseURL } = require('../config/server.json');
 
 class Photo extends Model {
   static init(sequelize) {
@@ -8,9 +9,16 @@ class Photo extends Model {
       mimetype: DataTypes.STRING,
       path: DataTypes.STRING,
       filename: DataTypes.STRING,
+      url: {
+        type: DataTypes.VIRTUAL,
+        get() {
+          return `${baseURL}/images/${this.getDataValue('filename')}`;
+        }
+      }
     }, {
       sequelize,
     });
+
     this.addHook('beforeCreate', (user) => {
       console.log(user.toJSON());
     })

@@ -3,26 +3,39 @@ import Tech from '../models/Tech';
 import TechAluno from '../models/TechAluno';
 import Photo from '../models/Photo';
 
+const { Op } = require('sequelize');
+
 class AlunoController {
   async index(req, res){
-    // const alunos = await Aluno.findAll({
-    //   include: {
-    //     model: Tech,
-    //     as: "teches",
-    //     through: {
-    //       attributes: ['id', 'aluno_id', 'tech_id']
-    //     }
-    //   }
-    // });
-
-    const relations = await Aluno.findAll({
-      include: {
-        model: Photo,
-        as: 'profile'
-      }
+    const { rows, count } = await Aluno.findAndCountAll({
+      include: [
+        {
+          model: Photo,
+          as: 'profile',
+          attributes: ['filename', 'url'],
+        },
+        {
+          model: Tech,
+          as: 'teches',
+          through: {
+            attributes: []
+          },
+          where: {
+            name: {
+              [Op.iLike]: '%JS',
+            }
+          },
+        }
+      ],
+      offset: 0,
+      limit: 2,
+      order: [
+        ['age', 'ASC']
+      ],
+      attributes: ['id', 'name', 'email', 'age']
     });
 
-    res.json(relations);
+    res.json({rows, count});
   }
 
   async show(req, res){
@@ -38,7 +51,7 @@ class AlunoController {
         {
           model: Photo,
           as: 'profile',
-          attributes: ['path', 'filename', 'mimetype']
+          attributes: ['filename', 'url'],
         }
       ]
     });
@@ -47,8 +60,9 @@ class AlunoController {
 
   async create(req, res){
     try{
-    const { name, lastname, email, age } = req.body;
-    const aluno = await Aluno.create({ name, lastname, email, age });
+    const aluno = await Aluno.create(req.body,{
+      fields: [ 'name', 'lastname', 'email', 'age' ]
+    });
     res.json(aluno)
     }catch(err){
       return res.status(400).json({ errors: err.errors.map( (error) => error.message ) });

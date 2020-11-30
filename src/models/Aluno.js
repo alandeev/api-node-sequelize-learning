@@ -1,5 +1,5 @@
 const { Model, DataTypes } = require('sequelize');
-const { uuid } = require('uuidv4');
+const { uuid, isUuid } = require('uuidv4');
 
 class Aluno extends Model {
   static init(sequelize) {
@@ -54,13 +54,19 @@ class Aluno extends Model {
         }
       }
     }, {
-      sequelize,
+      sequelize
     });
 
     this.addHook('beforeCreate', async (user) => {
       user.id = uuid();
       user.email = user.email.toLowerCase();
     });
+
+    this.addHook('beforeFind', ({ where }) => {
+      if(where && where.id && !isUuid(where.id)){
+        throw Error('is not valid UUID ')
+      }
+    })
   }
 
   static associate(models){

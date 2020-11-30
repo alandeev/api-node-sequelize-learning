@@ -42,10 +42,10 @@ class AuthController {
   }
 
   async signup(req, res) {
-    const { name, email, password } = req.body;
-
     try {
-      await User.create({ name, email, password });
+      await User.create(req.body, {
+        fields: ['name', 'email', 'password']
+      });
       return res.status(201).json();
     } catch (err) {
       return res

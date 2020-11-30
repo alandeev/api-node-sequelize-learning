@@ -1,6 +1,7 @@
 // express import
 const express = require('express');
 const consign = require('consign');
+const { resolve } = require('path');
 
 // database connection
 require('./database/database');
@@ -18,6 +19,7 @@ class App {
   middlewares() {
     this.app.use(express.urlencoded({ extended: true }));
     this.app.use(express.json());
+    this.app.use('/images', express.static(resolve(__dirname, '..', 'uploads', 'images')));
   }
 }
 
