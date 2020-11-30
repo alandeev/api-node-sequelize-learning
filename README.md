@@ -2,7 +2,7 @@
 
 ## Skills studied in the Project
 
-> Sequelize Predefined functions that helped in the design of high code scalability
+> Predefined 'Sequelize' functions that aided in code performance and high scalability design.
 
 > Multer Lib ( upload image )
 
